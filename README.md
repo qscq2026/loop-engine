@@ -20,6 +20,24 @@ Loop Engine 是一个**流水线编排引擎**（以 Prompt 模板 + YAML schema
 | **并行 parallel** | 所有步骤同时启动 | 多个独立任务互不依赖 |
 | **混合 mixed** | 组间串行、组内并行 | 第一步并行采集，第二步串行汇总 |
 
+```mermaid
+graph TD
+  subgraph S["🔵 串行 sequential"]
+    direction LR
+    S1["step‑1"] --> S2["[gate]"] --> S3["step‑2"] --> S4["generate"]
+  end
+
+  subgraph P["🟢 并行 parallel"]
+    direction LR
+    P1["task‑A"] & P2["task‑B"] & P3["task‑C"] --> P4["merge"]
+  end
+
+  subgraph M["🟠 混合 mixed"]
+    direction LR
+    M1["g1（并行）"] --> M2["[gate]"] --> M3["g2（串行）"] --> M4["generate"]
+  end
+```
+
 ## 核心组件
 
 ```
